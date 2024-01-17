@@ -66,24 +66,13 @@ struct OnboardingSplashScreenViewState: BindableState, CustomDebugStringConverti
         let locale = Locale.current
         let page4Title = locale.identifier.hasPrefix("en") ? "Cut the slack from teams." : VectorL10n.onboardingSplashPage4TitleNoPun
         
-        content = [
-            OnboardingSplashScreenPageContent(title: VectorL10n.onboardingSplashPage1Title,
-                                              message: VectorL10n.onboardingSplashPage1Message,
-                                              image: Asset.Images.onboardingSplashScreenPage1,
-                                              darkImage: Asset.Images.onboardingSplashScreenPage1Dark),
-            OnboardingSplashScreenPageContent(title: VectorL10n.onboardingSplashPage2Title,
-                                              message: VectorL10n.onboardingSplashPage2Message,
-                                              image: Asset.Images.onboardingSplashScreenPage2,
-                                              darkImage: Asset.Images.onboardingSplashScreenPage2Dark),
-            OnboardingSplashScreenPageContent(title: VectorL10n.onboardingSplashPage3Title,
-                                              message: VectorL10n.onboardingSplashPage3Message,
-                                              image: Asset.Images.onboardingSplashScreenPage3,
-                                              darkImage: Asset.Images.onboardingSplashScreenPage3Dark),
-            OnboardingSplashScreenPageContent(title: page4Title,
-                                              message: VectorL10n.onboardingSplashPage4Message,
-                                              image: Asset.Images.onboardingSplashScreenPage4,
-                                              darkImage: Asset.Images.onboardingSplashScreenPage4Dark)
-        ]
+         content = [
+             OnboardingSplashScreenPageContent(title: VectorL10n.onboardingSplashPage1Title,
+                                               message: VectorL10n.onboardingSplashPage1Message,
+                                               image: Asset.Images.onboardingSplashScreenPage1,
+                                               darkImage: Asset.Images.onboardingSplashScreenPage1Dark)
+         ]
+      
         bindings = OnboardingSplashScreenBindings()
     }
 }

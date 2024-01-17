@@ -1,0 +1,45 @@
+1. Our approach to analytics and cookies
+Bitchat uses cookies and other storage techniques to support key application functionality and to improve your experience of the Bitchat applications and website.
+
+1.1 What are cookies?
+Cookies are small files that websites place on your computer as you browse the web. Some cookies are key to the functionality of web applications, such as those allowing you to login. Another use of cookies is to help understand how you are using the app so that it can be improved.
+
+Cookies can be first-party or third-party. First party cookies are only stored under the domain of the website that you are currently visiting, and can only track your movements in that domain. These are typically used for site functionality and to understand how you’re using that site only. Third party cookies are created by a domain other than the website you are visiting, and are used to track your movements across different sites. This is most often done to understand your internet usage and use that data to display more relevant advertisements.
+
+1.2. What storage techniques do we use other than cookies?
+As well as cookies, Bitchat also uses Local Storage, a web based technology similar to cookies, allowing larger amounts of data to be stored. This allows the Bitchat app to store things like your chat history and room list on your device for faster access.
+
+If you opt in to sending us product analytics, Bitchat stores an Analytics ID in your account data on your Matrix homeserver to understand your usage across different devices and sessions. This is described in detail in the Product Analytics section below.
+
+1.3. On our website - Bitchat.io
+Bitchat.io uses cookies to help us track anonymous usage of the website. This data helps us understand how our users are using our website so that we can improve it. For example, we can understand which content are people finding relevant, or be notified of pages that are slow to load.
+
+Our website analytics are powered by Hubspot, a commercial CRM. Analytics data for Bitchat.io is stored in Hubspot’s externally hosted systems and is private to Bitchat. We don’t share this data with any third parties. For more details on this and other processors we use, please read our Privacy Notice.
+
+1.4. In our marketing campaigns
+Try.Bitchat.io is a subdomain of our website used for marketing campaigns. We use cookies on that subdomain to help us understand how our marketing campaigns are performing. Our analytics cookies are set only if you opt in to cookies for that page. We use analytics on try.Bitchat.io in conjunction with email analytics to understand how our content is being engaged across our communication platforms.
+
+Our marketing campaigns are powered by Hubspot.
+
+Example try.Bitchat.io pages include:
+
+Skype for business is end of life
+
+Secure collaboration for cybersecurity teams
+
+1.5. In our marketing emails
+Bitchat sends emails to customers that opt in to receive marketing communications from us. Links in these emails that direct to our marketing website contain identifiers that are used to help us understand how our emails affect the traffic to our website, and how our content is being engaged with by users we send emails to. 
+
+We send emails using Hubspot, a commercial CRM. Analytics data for marketing emails is stored in Hubspot’s externally hosted systems and is private to Bitchat. We don’t share this data with any third parties. 
+
+1.6. In our apps
+Bitchat apps (mobile and web) store data on your device to support essential application functionality. Some examples of this functionality are:
+
+Maintaining a local copy of your chat history;
+Storing an authentication token so you don’t have to login each time you open Bitchat;
+Caching data locally to reduce the number of network requests, in order to speed up loading time.
+This data is not shared with any third parties.
+
+Bitchat Web stores data both in cookies and in your browser’s Local Storage.
+
+Bitchat Android and Bitchat iOS don’t use cookies or local storage, but store similar data in native app storage.
