@@ -118,9 +118,9 @@ final class BuildSettings: NSObject {
     // Note: Set empty strings to hide the related entry in application settings
     static let applicationCopyrightUrlString = "https://github.com/ZohaibBlockchain/Bitchat/blob/main/docs/CookiePolicy"
     static let applicationPrivacyPolicyUrlString = "https://github.com/ZohaibBlockchain/Bitchat/blob/main/docs/PrivacyPolicy"
-    static let applicationAcceptableUsePolicyUrlString = "https://element.io/acceptable-use-policy-terms"
+    static let applicationAcceptableUsePolicyUrlString = "https://github.com/ZohaibBlockchain/Bitchat/blob/main/docs/Acceptable%20Use%20Policy"
     static let applicationHelpUrlString =
-    "https://element.io/help"
+    "https://p2pchatter.com/help"
     
     
     // MARK: - Permalinks
