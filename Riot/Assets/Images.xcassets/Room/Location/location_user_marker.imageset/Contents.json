@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "location_user_marker.png",
+      "filename" : "location_user_marker@3x 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "location_user_marker@2x.png",
+      "filename" : "location_user_marker@3x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

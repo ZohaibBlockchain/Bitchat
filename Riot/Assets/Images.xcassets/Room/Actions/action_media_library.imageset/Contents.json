@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "action_media_library.png",
+      "filename" : "action_media_library@3x 1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "action_media_library@2x.png",
+      "filename" : "action_media_library@3x 2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "poll_checkbox_selected.png",
+      "filename" : "poll_checkbox_selected@3x 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "poll_checkbox_selected@2x.png",
+      "filename" : "poll_checkbox_selected@3x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

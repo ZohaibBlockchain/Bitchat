@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "video_call.png",
+      "filename" : "video_call@3x 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "video_call@2x.png",
+      "filename" : "video_call@3x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

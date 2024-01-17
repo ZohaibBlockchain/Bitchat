@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "typing.png",
+      "filename" : "typing@3x 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "typing@2x.png",
+      "filename" : "typing@3x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

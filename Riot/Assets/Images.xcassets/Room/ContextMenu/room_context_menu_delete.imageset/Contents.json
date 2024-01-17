@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "room_context_menu_delete.png",
+      "filename" : "room_context_menu_delete@3x 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "room_context_menu_delete@2x.png",
+      "filename" : "room_context_menu_delete@3x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

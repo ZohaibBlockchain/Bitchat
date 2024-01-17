@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "FAB.png",
+      "filename" : "FAB@3x 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "FAB@2x.png",
+      "filename" : "FAB@3x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "action_file.png",
+      "filename" : "action_file@3x 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "action_file@2x.png",
+      "filename" : "action_file@3x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
