@@ -23,7 +23,7 @@ final class LaunchLoadingView: UIView, NibLoadable, Themable {
     // MARK: - Constants
     
     private enum LaunchAnimation {
-        static let duration: TimeInterval = 3.0
+        static let duration: TimeInterval = 3
         static let repeatCount = Float.greatestFiniteMagnitude
     }
     
@@ -52,9 +52,9 @@ final class LaunchLoadingView: UIView, NibLoadable, Themable {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        let animationTimeline = Timeline_1(view: self.animationView, duration: LaunchAnimation.duration, repeatCount: LaunchAnimation.repeatCount)
-        animationTimeline.play()
-        self.animationTimeline = animationTimeline
+//        let animationTimeline = Timeline_1(view: self.animationView, duration: LaunchAnimation.duration, repeatCount: LaunchAnimation.repeatCount)
+//        animationTimeline.play()
+//        self.animationTimeline = animationTimeline
         
         progressContainer.isHidden = true
     }
@@ -62,8 +62,8 @@ final class LaunchLoadingView: UIView, NibLoadable, Themable {
     // MARK: - Public
     
     func update(theme: Theme) {
-        self.backgroundColor = theme.backgroundColor
-        self.animationView.backgroundColor = theme.backgroundColor
+//        self.backgroundColor = theme.backgroundColor
+//        self.animationView.backgroundColor = theme.backgroundColor
     }
 }
 

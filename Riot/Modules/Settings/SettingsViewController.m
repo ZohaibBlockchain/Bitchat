@@ -602,8 +602,13 @@ SSOAuthenticationPresenterDelegate>
     {
         [sectionAbout addRowWithTag:ABOUT_PRIVACY_INDEX];
     }
-    [sectionAbout addRowWithTag:ABOUT_THIRD_PARTY_INDEX];
-    sectionAbout.headerTitle = VectorL10n.settingsAbout;
+
+
+
+
+    
+    // [sectionAbout addRowWithTag:ABOUT_THIRD_PARTY_INDEX];
+    // sectionAbout.headerTitle = VectorL10n.settingsAbout;
 
     if (BuildSettings.settingsScreenShowAdvancedSettings)
     {        

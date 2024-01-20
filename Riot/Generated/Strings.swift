@@ -843,11 +843,11 @@ public class VectorL10n: NSObject {
   public static func authenticationRegistrationUsernameFooterAvailable(_ p1: String) -> String {
     return VectorL10n.tr("Vector", "authentication_registration_username_footer_available", p1)
   }
-  /// Where your conversations will live
+  /// Select server
   public static var authenticationServerInfoTitle: String { 
     return VectorL10n.tr("Vector", "authentication_server_info_title") 
   }
-  /// Where your conversations live
+  /// Select server
   public static var authenticationServerInfoTitleLogin: String { 
     return VectorL10n.tr("Vector", "authentication_server_info_title_login") 
   }
@@ -2311,11 +2311,11 @@ public class VectorL10n: NSObject {
   public static var eventFormatterMessageEditedMention: String { 
     return VectorL10n.tr("Vector", "event_formatter_message_edited_mention") 
   }
-  /// Re-request encryption keys
+  /// 
   public static var eventFormatterRerequestKeysPart1Link: String { 
     return VectorL10n.tr("Vector", "event_formatter_rerequest_keys_part1_link") 
   }
-  ///  from your other sessions.
+  ///  
   public static var eventFormatterRerequestKeysPart2: String { 
     return VectorL10n.tr("Vector", "event_formatter_rerequest_keys_part2") 
   }
@@ -3883,11 +3883,11 @@ public class VectorL10n: NSObject {
   public static var noticeConferenceCallStarted: String { 
     return VectorL10n.tr("Vector", "notice_conference_call_started") 
   }
-  /// The sender's session has not sent us the keys for this message.
+  /// 
   public static var noticeCryptoErrorUnknownInboundSessionId: String { 
     return VectorL10n.tr("Vector", "notice_crypto_error_unknown_inbound_session_id") 
   }
-  /// ** Unable to decrypt: %@ **
+  ///  %@ 
   public static func noticeCryptoUnableToDecrypt(_ p1: String) -> String {
     return VectorL10n.tr("Vector", "notice_crypto_unable_to_decrypt", p1)
   }
@@ -4559,15 +4559,15 @@ public class VectorL10n: NSObject {
   public static var onboardingPersonalizationSkip: String { 
     return VectorL10n.tr("Vector", "onboarding_personalization_skip") 
   }
-  /// I already have an account
+  /// Sign In
   public static var onboardingSplashLoginButtonTitle: String { 
     return VectorL10n.tr("Vector", "onboarding_splash_login_button_title") 
   }
-  /// Secure and independent communication that gives you the same level of privacy as a face-to-face conversation in your own home.
+  /// Bit chat X app is a groundbreaking open-source platform offering peer-to-peer encryption, ensuring user privacy and security. Its innovative design prioritizes safe, seamless communication, fostering a community where conversations remain confidential and protected.
   public static var onboardingSplashPage1Message: String { 
     return VectorL10n.tr("Vector", "onboarding_splash_page_1_message") 
   }
-  /// Own your conversations.
+  /// Bit Chat X.
   public static var onboardingSplashPage1Title: String { 
     return VectorL10n.tr("Vector", "onboarding_splash_page_1_title") 
   }
@@ -4595,7 +4595,7 @@ public class VectorL10n: NSObject {
   public static var onboardingSplashPage4TitleNoPun: String { 
     return VectorL10n.tr("Vector", "onboarding_splash_page_4_title_no_pun") 
   }
-  /// Create account
+  /// Register
   public static var onboardingSplashRegisterButtonTitle: String { 
     return VectorL10n.tr("Vector", "onboarding_splash_register_button_title") 
   }
@@ -9407,7 +9407,7 @@ public class VectorL10n: NSObject {
   public static var voiceBroadcastPlaybackLockScreenPlaceholder: String { 
     return VectorL10n.tr("Vector", "voice_broadcast_playback_lock_screen_placeholder") 
   }
-  /// Unable to decrypt this voice broadcast.
+  /// 
   public static var voiceBroadcastPlaybackUnableToDecrypt: String { 
     return VectorL10n.tr("Vector", "voice_broadcast_playback_unable_to_decrypt") 
   }
