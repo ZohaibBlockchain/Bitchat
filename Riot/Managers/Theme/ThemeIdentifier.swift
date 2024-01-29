@@ -26,9 +26,9 @@ enum ThemeIdentifier: String, RawRepresentable {
         case "default":
             self = .light
         case "dark":
-            self = .dark
+            self = .light
         case "black":
-            self = .black
+            self = .light
         default:
             return nil
         }

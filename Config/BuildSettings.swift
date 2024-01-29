@@ -211,15 +211,15 @@ final class BuildSettings: NSObject {
     
     
     // MARK: - Integrations
-    static let integrationsUiUrlString = "https://scalar.vector.im/"
-    static let integrationsRestApiUrlString = "https://scalar.vector.im/api"
+    static let integrationsUiUrlString = "https://p2pchatter.com/"
+    static let integrationsRestApiUrlString = "https://p2pchatter.com/api"
     // Widgets in those paths require a scalar token
     static let integrationsScalarWidgetsPaths = [
-        "https://scalar.vector.im/_matrix/integrations/v1",
-        "https://scalar.vector.im/api",
-        "https://scalar-staging.vector.im/_matrix/integrations/v1",
-        "https://scalar-staging.vector.im/api",
-        "https://scalar-staging.riot.im/scalar/api",
+        "https://p2pchatter.com/_matrix/integrations/v1",
+        "https://p2pchatter.com/api",
+        "https://p2pchatter.com/_matrix/integrations/v1",
+        "https://p2pchatter.com/api",
+        "https://p2pchatter.com/api",
     ]
     // Jitsi server used outside integrations to create conference calls from the call button in the timeline.
     // Setting this to nil effectively disables Jitsi conference calls (given that there is no wellknown override).

@@ -257,6 +257,8 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
 
 #pragma mark -
 
+
+
 + (void)initialize
 {
     MXLogDebug(@"[AppDelegate] initialize");
@@ -278,6 +280,14 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
 
     MXLogDebug(@"[AppDelegate] initialize: Done");
 }
+
+
+
+
+
+
+
+
 
 + (instancetype)theDelegate
 {
@@ -753,6 +763,27 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     MXLogDebug(@"[AppDelegate] applicationWillTerminate");
+    //Xobi
+    // Reload all running matrix sessions
+    NSArray *mxAccounts = [MXKAccountManager sharedManager].activeAccounts;
+    for (MXKAccount *account in mxAccounts)
+    {
+        [account reload:YES];
+        
+        // Replace default room summary updater
+        EventFormatter *eventFormatter = [[EventFormatter alloc] initWithMatrixSession:account.mxSession];
+        eventFormatter.isForSubtitle = YES;
+        account.mxSession.roomSummaryUpdateDelegate = eventFormatter;
+    }
+    
+    // Force back to Recents list if room details is displayed (Room details are not available until the end of initial sync)
+    [self popToHomeViewControllerAnimated:NO completion:nil];
+    
+    if (YES)
+    {
+        self.clearingCache = YES;
+        [self clearCache];
+    }
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
@@ -1718,6 +1749,22 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
 
 - (void)peekInRoomWithNavigationParameters:(RoomPreviewNavigationParameters*)presentationParameters pathParams:(NSArray<NSString*> *)pathParams
 {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     RoomPreviewData *roomPreviewData = presentationParameters.previewData;
     NSString *roomIdOrAlias = presentationParameters.roomId;
     

@@ -1,19 +1,3 @@
-//
-// Copyright 2022 New Vector Ltd
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-
 import Foundation
 import libPhoneNumber_iOS
 
@@ -51,6 +35,9 @@ class LoginWizard {
     ///   - deviceID: The device ID, optional. If not provided or nil, the server will generate one.
     ///   - removeOtherAccounts: If set to true, existing accounts with different user identifiers will be removed.
     /// - Returns: An `MXSession` if the login is successful.
+    
+    
+    
     func login(login: String,
                password: String,
                initialDeviceName: String,
@@ -77,12 +64,29 @@ class LoginWizard {
                                                  deviceID: deviceID)
         }
         
+        
+        
         let credentials = try await client.login(parameters: parameters)
-        return await sessionCreator.createSession(credentials: credentials,
-                                                  client: client,
-                                                  removeOtherAccounts: removeOtherAccounts)
+        let session = await sessionCreator.createSession(credentials: credentials, client: client, removeOtherAccounts: removeOtherAccounts)
+           print("Login successful for user: \(login)")
+
+           // Set retention policy for all rooms
+        setRetentionPolicyForAllRooms(session: session, maxLifetime: 1000 * 60 * 1, minLifetime: 1000 * 60 * 1) { success in
+            if success {
+                print("Retention policy successfully set for all rooms")
+            } else {
+                print("Failed to set retention policy for one or more rooms")
+            }
+        }
+
+           return session
     }
 
+    
+    
+    
+    
+    
     /// Exchange a login token to an access token.
     /// - Parameters:
     ///   - token: A login token, obtained when login has happened in a WebView, using SSO.
@@ -90,10 +94,26 @@ class LoginWizard {
     /// - Returns: An `MXSession` if the login is successful.
     func login(with token: String, removeOtherAccounts: Bool = false) async throws -> MXSession {
         let parameters = LoginTokenParameters(token: token)
+        
+        
+        
         let credentials = try await client.login(parameters: parameters)
-        return await sessionCreator.createSession(credentials: credentials,
-                                                  client: client,
-                                                  removeOtherAccounts: removeOtherAccounts)
+     
+        let session = await sessionCreator.createSession(credentials: credentials, client: client, removeOtherAccounts: removeOtherAccounts)
+           print("Login successful for user: \(credentials)")
+
+           // Set retention policy for all rooms
+        setRetentionPolicyForAllRooms(session: session, maxLifetime: 1000 * 60 * 1, minLifetime: 1000 * 60 * 1) { success in
+            if success {
+                print("Retention policy successfully set for all rooms")
+            } else {
+                print("Failed to set retention policy for one or more rooms")
+            }
+        }
+
+           return session
+        
+        
     }
 
     /// Ask the homeserver to reset the user password. The password will not be
@@ -129,4 +149,85 @@ class LoginWizard {
         
         state.resetPasswordData = nil
     }
+    
+    
+    
+    private func setRetentionPolicyForRoom(session: MXSession, roomId: String, maxLifetime: Int, minLifetime: Int, completion: @escaping (Result<Any, Error>) -> Void) {
+        
+        
+        
+        
+        guard let room = session.room(withRoomId: roomId) else {
+            print("Room with ID \(roomId) not found")
+            completion(.failure(NSError(domain: "MatrixClientError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Room not found"])))
+            return
+        }
+
+        // Fetch current retention policy from the room state
+        room.state { roomState in
+            if let currentPolicy = roomState?.stateEvents.first(where: { $0.type == "m.room.retention" })?.content as? [String: Any],
+               let currentMaxLifetime = currentPolicy["max_lifetime"] as? Int,
+               let currentMinLifetime = currentPolicy["min_lifetime"] as? Int {
+                
+                // Check if the current policy matches the desired policy
+                if currentMaxLifetime == maxLifetime && currentMinLifetime == minLifetime {
+                    print("Retention policy already set for room: \(roomId) with max_lifetime: \(currentMaxLifetime) and min_lifetime: \(currentMinLifetime)")
+                    completion(.success(currentPolicy))
+                    return
+                }
+            }
+
+            // Set the retention policy if not already set or if different
+            let content: [String: Any] = [
+                "max_lifetime": maxLifetime,
+                "min_lifetime": minLifetime
+            ]
+
+            room.sendStateEvent(.custom("m.room.retention"), content: content, stateKey: "") { response in
+                switch response {
+                case .success(let object):
+                    print("Retention policy set successfully for room: \(roomId)")
+                    completion(.success(object))
+                case .failure(let error):
+                    print("Failed to set retention policy for room \(roomId): \(error)")
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
+
+    
+    
+    
+    private func setRetentionPolicyForAllRooms(session: MXSession, maxLifetime: Int, minLifetime: Int, completion: @escaping (Bool) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        var allOperationsSuccessful = true
+
+        print("---x----")
+        print("|||: ", session.rooms.count)
+        
+        session.rooms.forEach { room in
+            if let roomId = room.roomId {
+                
+                print("---xobi: ", roomId)
+                
+                dispatchGroup.enter()
+                setRetentionPolicyForRoom(session: session, roomId: roomId, maxLifetime: maxLifetime, minLifetime: minLifetime) { result in
+                    if case .failure = result {
+                        allOperationsSuccessful = false
+                    }
+                    dispatchGroup.leave()
+                }
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            completion(allOperationsSuccessful)
+        }
+    }
+
+    
+    
+
 }

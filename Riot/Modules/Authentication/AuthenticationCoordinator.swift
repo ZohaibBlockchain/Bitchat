@@ -116,6 +116,7 @@ final class AuthenticationCoordinator: NSObject, AuthenticationCoordinatorProtoc
     /// Starts the authentication flow.
     @MainActor private func startAuthenticationFlow() async {
         if let softLogoutCredentials = authenticationService.softLogoutCredentials,
+           
            let homeserverAddress = softLogoutCredentials.homeServer {
             do {
                 try await authenticationService.startFlow(.login, for: homeserverAddress)
@@ -702,11 +703,14 @@ extension AuthenticationCoordinator: SSOAuthenticationPresenterDelegate {
         authenticationType = nil
     }
     
+    
+    //XobiSSO
     /// Performs the last step of the login process for a flow that authenticated via SSO.
     @MainActor private func handleLoginToken(_ token: String, using loginWizard: LoginWizard) async {
         do {
             let session = try await loginWizard.login(with: token)
             onSessionCreated(session: session, flow: authenticationService.state.flow)
+            
         } catch {
             MXLog.error("[AuthenticationCoordinator] Login with SSO token failed.")
             displayError(message: error.localizedDescription)

@@ -2284,7 +2284,7 @@ Tap the + to start adding people.";
 
 // MARK: - All Chats
 
-"all_chats_title" = "All chats";
+"all_chats_title" = "Chats";
 "all_chats_section_title" = "Chats";
 "all_chats_edit_layout" = "Layout preferences";
 "all_chats_edit_layout_recents" = "Recents";

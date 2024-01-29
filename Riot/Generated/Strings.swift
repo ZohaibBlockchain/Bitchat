@@ -215,7 +215,7 @@ public class VectorL10n: NSObject {
   public static var allChatsSectionTitle: String { 
     return VectorL10n.tr("Vector", "all_chats_section_title") 
   }
-  /// All chats
+  /// Chats
   public static var allChatsTitle: String { 
     return VectorL10n.tr("Vector", "all_chats_title") 
   }
@@ -727,7 +727,7 @@ public class VectorL10n: NSObject {
   public static var authenticationQrLoginConfirmTitle: String { 
     return VectorL10n.tr("Vector", "authentication_qr_login_confirm_title") 
   }
-  /// Open Element on your other device
+  /// Open BitchatX on your other device
   public static var authenticationQrLoginDisplayStep1: String { 
     return VectorL10n.tr("Vector", "authentication_qr_login_display_step1") 
   }
@@ -795,7 +795,7 @@ public class VectorL10n: NSObject {
   public static var authenticationQrLoginStartNeedAlternative: String { 
     return VectorL10n.tr("Vector", "authentication_qr_login_start_need_alternative") 
   }
-  /// Open Element on your other device
+  /// Open BitchatX on your other device
   public static var authenticationQrLoginStartStep1: String { 
     return VectorL10n.tr("Vector", "authentication_qr_login_start_step1") 
   }
@@ -1871,7 +1871,7 @@ public class VectorL10n: NSObject {
   public static var deviceVerificationSelfVerifyAlertValidateAction: String { 
     return VectorL10n.tr("Vector", "device_verification_self_verify_alert_validate_action") 
   }
-  /// You need to verify this session in order to read your secure message history.\n\nOpen Element on one of your other devices and follow the instructions.
+  /// Verify this session to load your secure message history.\n\n Open BitchatX on any other logged devices and follow the instructions.
   public static var deviceVerificationSelfVerifyOpenOnOtherDeviceInformation: String { 
     return VectorL10n.tr("Vector", "device_verification_self_verify_open_on_other_device_information") 
   }
@@ -3291,7 +3291,7 @@ public class VectorL10n: NSObject {
   public static var locationSharingAllowBackgroundLocationCancelAction: String { 
     return VectorL10n.tr("Vector", "location_sharing_allow_background_location_cancel_action") 
   }
-  /// If you’d like to share your Live location, Element needs location access when the app is in the background.\nTo enable access, tap Settings> Location and select Always
+  /// If you’d like to share your Live location, BitchatX needs location access when the app is in the background.\nTo enable access, tap Settings> Location and select Always
   public static var locationSharingAllowBackgroundLocationMessage: String { 
     return VectorL10n.tr("Vector", "location_sharing_allow_background_location_message") 
   }
@@ -3639,7 +3639,7 @@ public class VectorL10n: NSObject {
   public static var majorUpdateLearnMoreAction: String { 
     return VectorL10n.tr("Vector", "major_update_learn_more_action") 
   }
-  /// Riot is now %@
+  /// Bitchat is now %@
   public static func majorUpdateTitle(_ p1: String) -> String {
     return VectorL10n.tr("Vector", "major_update_title", p1)
   }
@@ -4587,7 +4587,7 @@ public class VectorL10n: NSObject {
   public static var onboardingSplashPage3Title: String { 
     return VectorL10n.tr("Vector", "onboarding_splash_page_3_title") 
   }
-  /// Element is also great for the workplace. It’s trusted by the world’s most secure organisations.
+  /// BitchatX is also great for the workplace. It’s trusted by the world’s most secure organisations.
   public static var onboardingSplashPage4Message: String { 
     return VectorL10n.tr("Vector", "onboarding_splash_page_4_message") 
   }
@@ -8707,7 +8707,7 @@ public class VectorL10n: NSObject {
   public static var stop: String { 
     return VectorL10n.tr("Vector", "stop") 
   }
-  /// Element is a new type of messenger and collaboration app that:\n\n1. Puts you in control to preserve your privacy\n2. Lets you communicate with anyone in the Matrix network, and even beyond by integrating with apps such as Slack\n3. Protects you from advertising, datamining, backdoors and walled gardens\n4. Secures you through end-to-end encryption, with cross-signing to verify others\n\nElement is completely different from other messaging and collaboration apps because it is decentralised and open source.\n\nElement lets you self-host - or choose a host - so that you have privacy, ownership and control of your data and conversations. It gives you access to an open network; so you’re not just stuck speaking to other Element users only. And it is very secure.\n\nElement is able to do all this because it operates on Matrix - the standard for open, decentralised communication. \n\nElement puts you in control by letting you choose who hosts your conversations. From the Element app, you can choose to host in different ways:\n\n1. Get a free account on the matrix.org public server\n2. Self-host your account by running a server on your own hardware\n3. Sign up for an account on a custom server by simply subscribing to the Element Matrix Services hosting platform\n\nWhy choose Element?\n\nOWN YOUR DATA: You decide where to keep your data and messages. You own it and control it, not some MEGACORP that mines your data or gives access to third parties.\n\nOPEN MESSAGING AND COLLABORATION: You can chat with anyone else in the Matrix network, whether they’re using Element or another Matrix app, and even if they are using a different messaging system of the likes of Slack, IRC or XMPP.\n\nSUPER-SECURE: Real end-to-end encryption (only those in the conversation can decrypt messages), and cross-signing to verify the devices of conversation participants.\n\nCOMPLETE COMMUNICATION: Messaging, voice and video calls, file sharing, screen sharing and a whole bunch of integrations, bots and widgets. Build rooms, communities, stay in touch and get things done.\n\nEVERYWHERE YOU ARE: Stay in touch wherever you are with fully synchronised message history across all your devices and on the web at https://element.io/app.
+  /// BitchatX is a new type of messenger and collaboration app that:\n\n1. Puts you in control to preserve your privacy\n2. Lets you communicate with anyone in the Matrix network, and even beyond by integrating with apps such as Slack\n3. Protects you from advertising, datamining, backdoors and walled gardens\n4. Secures you through end-to-end encryption, with cross-signing to verify others\n\nBitchatX is completely different from other messaging and collaboration apps because it is decentralised and open source.\n\nBitchatX lets you self-host - or choose a host - so that you have privacy, ownership and control of your data and conversations. It gives you access to an open network; so you’re not just stuck speaking to other BitchatX users only. And it is very secure.\n\nBitchatX is able to do all this because it operates on Matrix - the standard for open, decentralised communication. \n\nBitchatX puts you in control by letting you choose who hosts your conversations. From the BitchatX app, you can choose to host in different ways:\n\n1. Get a free account on the matrix.org public server\n2. Self-host your account by running a server on your own hardware\n3. Sign up for an account on a custom server by simply subscribing to the BitchatX Matrix Services hosting platform\n\nWhy choose BitchatX?\n\nOWN YOUR DATA: You decide where to keep your data and messages. You own it and control it, not some MEGACORP that mines your data or gives access to third parties.\n\nOPEN MESSAGING AND COLLABORATION: You can chat with anyone else in the Matrix network, whether they’re using BitchatX or another Matrix app, and even if they are using a different messaging system of the likes of Slack, IRC or XMPP.\n\nSUPER-SECURE: Real end-to-end encryption (only those in the conversation can decrypt messages), and cross-signing to verify the devices of conversation participants.\n\nCOMPLETE COMMUNICATION: Messaging, voice and video calls, file sharing, screen sharing and a whole bunch of integrations, bots and widgets. Build rooms, communities, stay in touch and get things done.\n\nEVERYWHERE YOU ARE: Stay in touch wherever you are with fully synchronised message history across all your devices and on the web at https://p2pchatter.com/app.
   public static var storeFullDescription: String { 
     return VectorL10n.tr("Vector", "store_full_description") 
   }
@@ -9139,7 +9139,7 @@ public class VectorL10n: NSObject {
   public static var userSessionVerifiedAdditionalInfo: String { 
     return VectorL10n.tr("Vector", "user_session_verified_additional_info") 
   }
-  /// Verified sessions are anywhere you are using Element after entering your passphrase or confirming your identity with another verified session.\n\nThis means that you have all the keys needed to unlock your encrypted messages and confirm to other users that you trust this session.
+  /// Verified sessions are anywhere you are using BitchatX after entering your passphrase or confirming your identity with another verified session.\n\nThis means that you have all the keys needed to unlock your encrypted messages and confirm to other users that you trust this session.
   public static var userSessionVerifiedSessionDescription: String { 
     return VectorL10n.tr("Vector", "user_session_verified_session_description") 
   }

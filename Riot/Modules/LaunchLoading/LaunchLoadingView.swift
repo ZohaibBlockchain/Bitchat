@@ -26,7 +26,7 @@ final class LaunchLoadingView: UIView, NibLoadable, Themable {
         static let duration: TimeInterval = 3
         static let repeatCount = Float.greatestFiniteMagnitude
     }
-    
+    @IBOutlet weak var backgroundImageView: UIImageView!
     // MARK: - Properties
     
     @IBOutlet private weak var animationView: ElementView!

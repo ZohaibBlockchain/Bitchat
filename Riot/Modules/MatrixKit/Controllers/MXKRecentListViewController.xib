@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,9 +23,9 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <searchBar contentMode="redraw" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zbr-9e-VZh">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="44" id="jCU-cq-2OA"/>
+                        <constraint firstAttribute="height" constant="60" id="jCU-cq-2OA"/>
                     </constraints>
                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                     <connections>
@@ -34,7 +33,7 @@
                     </connections>
                 </searchBar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="orV-HH-88x">
-                    <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                    <rect key="frame" x="0.0" y="60" width="375" height="607"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </tableView>
             </subviews>
@@ -48,6 +47,7 @@
                 <constraint firstAttribute="trailing" secondItem="Zbr-9e-VZh" secondAttribute="trailing" id="rKb-TZ-sap"/>
                 <constraint firstAttribute="trailing" secondItem="orV-HH-88x" secondAttribute="trailing" id="yBp-63-kZi"/>
             </constraints>
+            <point key="canvasLocation" x="138" y="18"/>
         </view>
     </objects>
 </document>

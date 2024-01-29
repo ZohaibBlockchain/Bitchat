@@ -379,7 +379,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_screen_logo" translatesAutoresizingMaskIntoConstraints="NO" id="6LG-qc-7jf">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="B" translatesAutoresizingMaskIntoConstraints="NO" id="6LG-qc-7jf">
                                 <rect key="frame" x="127.5" y="273.5" width="120" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="6LG-qc-7jf" secondAttribute="height" multiplier="1:1" id="4Qy-7P-CuE"/>
@@ -532,10 +532,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="rok-Xg-Mhx"/>
+        <segue reference="Tfl-tq-LQp"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="launch_screen_logo" width="240" height="240"/>
+        <image name="B" width="227.5" height="237.5"/>
         <image name="search_icon" width="24" height="24"/>
         <image name="settings_icon" width="24" height="24"/>
         <image name="tab_favourites" width="24" height="24"/>

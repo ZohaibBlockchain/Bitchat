@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VersionCheckAlertViewController" customModule="Riot" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VersionCheckAlertViewController" customModule="Element" customModuleProvider="target">
             <connections>
                 <outlet property="actionButton" destination="EbY-m0-XSs" id="63P-Xf-QDA"/>
                 <outlet property="alertContainerView" destination="KIG-b9-Tyx" id="U06-A9-P9c"/>
@@ -24,10 +24,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KIG-b9-Tyx">
-                    <rect key="frame" x="42.5" y="186" width="595" height="242"/>
+                    <rect key="frame" x="46" y="176" width="588.5" height="262"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGK-xG-RKK">
-                            <rect key="frame" x="547" y="4" width="44" height="44"/>
+                            <rect key="frame" x="540.5" y="4" width="44" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="44" id="8Pq-sX-5mB"/>
                                 <constraint firstAttribute="height" constant="44" id="Wyp-3I-uEw"/>
@@ -38,20 +38,20 @@
                             </connections>
                         </button>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="s18-lG-O4e">
-                            <rect key="frame" x="16" y="52" width="563" height="174"/>
+                            <rect key="frame" x="16" y="52" width="556.5" height="194"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Ter-fV-mb4">
-                                    <rect key="frame" x="0.0" y="0.0" width="563" height="114"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="556.5" height="134"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We’re ending support for iOS 11" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KmG-fj-orS">
-                                            <rect key="frame" x="156.5" y="0.0" width="250.5" height="20.5"/>
+                                            <rect key="frame" x="153" y="0.0" width="250.5" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                             <color key="textColor" red="0.090196078431372548" green="0.098039215686274508" blue="0.10980392156862745" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zgc-27-11w">
-                                            <rect key="frame" x="0.0" y="32.5" width="563" height="81.5"/>
-                                            <string key="text">We've been working on enhancing Element for a faster and more polished experience. Unfortunately your current version of iOS is not compatible with some of those fixes and will no longer be supported. We're advising you to upgrade your operating system to use Element to its full potential.</string>
+                                            <rect key="frame" x="0.0" y="32.5" width="556.5" height="101.5"/>
+                                            <string key="text">We have made significant improvements to Element for a smoother and quicker user experience. However, your current iOS version does not support some of these enhancements and will not be compatible moving forward. To fully benefit from Element's capabilities, we recommend upgrading your operating system.</string>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.45098039215686275" green="0.49019607843137253" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -59,7 +59,7 @@
                                     </subviews>
                                 </stackView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EbY-m0-XSs">
-                                    <rect key="frame" x="200" y="134" width="163" height="40"/>
+                                    <rect key="frame" x="196.5" y="154" width="163" height="40"/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                     <inset key="contentEdgeInsets" minX="62" minY="11" maxX="62" maxY="11"/>
                                     <state key="normal" title="Got it"/>

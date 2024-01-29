@@ -165,6 +165,8 @@ internal class Asset: NSObject {
     internal static let importFilesButton = ImageAsset(name: "import_files_button")
     internal static let keyBackupLogo = ImageAsset(name: "key_backup_logo")
     internal static let keyVerificationSuccessShield = ImageAsset(name: "key_verification_success_shield")
+    internal static let loading1 = ImageAsset(name: "Loading 1")
+    internal static let loading = ImageAsset(name: "Loading")
     internal static let oldLogo = ImageAsset(name: "old_logo")
     internal static let cameraCapture = ImageAsset(name: "camera_capture")
     internal static let cameraPlay = ImageAsset(name: "camera_play")
@@ -354,6 +356,8 @@ internal class Asset: NSObject {
     internal static let voiceBroadcastTileLive = ImageAsset(name: "voice_broadcast_tile_live")
     internal static let voiceBroadcastTileMic = ImageAsset(name: "voice_broadcast_tile_mic")
     internal static let voiceBroadcastTimeLeft = ImageAsset(name: "voice_broadcast_time_left")
+    internal static let b = ImageAsset(name: "B")
+    internal static let xload = ImageAsset(name: "Xload")
     internal static let launchScreenLogo = ImageAsset(name: "launch_screen_logo")
   }
   @objcMembers

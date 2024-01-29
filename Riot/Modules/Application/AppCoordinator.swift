@@ -89,6 +89,7 @@ final class AppCoordinator: NSObject, AppCoordinatorType {
         excludeAllItemsFromBackup()
         setupPushRulesSessionEvents()
         
+        
         // Setup navigation router store
         _ = NavigationRouterStore.shared
         

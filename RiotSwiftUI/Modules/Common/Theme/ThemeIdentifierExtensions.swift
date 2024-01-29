@@ -26,7 +26,7 @@ extension ThemeIdentifier {
         case .light:
             return Self.defaultTheme
         case .dark, .black:
-            return Self.darkTheme
+            return Self.defaultTheme
         }
     }
 }

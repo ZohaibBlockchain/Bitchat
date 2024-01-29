@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
@@ -11,22 +11,28 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iN0-l3-epB" customClass="LaunchLoadingView" customModule="Element" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Xload" translatesAutoresizingMaskIntoConstraints="NO" id="backgroundImageView">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </imageView>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DEk-Va-xdT">
+                    <rect key="frame" x="202" y="425" width="14" height="4"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="tintColor" systemColor="tintColor"/>
+                </progressView>
                 <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="hme-ss-nFP">
-                    <rect key="frame" x="20" y="247" width="280" height="36"/>
+                    <rect key="frame" x="32" y="520" width="350" height="0.0"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wzS-bN-Pht">
-                            <rect key="frame" x="0.0" y="0.0" width="280" height="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wzS-bN-Pht">
+                            <rect key="frame" x="0.0" y="0.0" width="350" height="0.0"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" systemColor="systemGrayColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DEk-Va-xdT">
-                            <rect key="frame" x="0.0" y="32" width="280" height="4"/>
-                            <color key="tintColor" systemColor="tintColor"/>
-                        </progressView>
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="width" priority="750" constant="350" id="hle-Py-f0J"/>
@@ -41,14 +47,16 @@
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hme-ss-nFP" secondAttribute="trailing" constant="20" id="U6l-o1-IL3"/>
             </constraints>
             <connections>
+                <outlet property="backgroundImageView" destination="backgroundImageView" id="name-of-outlet-connection"/>
                 <outlet property="progressContainer" destination="hme-ss-nFP" id="XC1-4m-OD7"/>
                 <outlet property="progressView" destination="DEk-Va-xdT" id="PCI-Vi-Zyg"/>
                 <outlet property="statusLabel" destination="wzS-bN-Pht" id="Mj2-rn-i5x"/>
             </connections>
-            <point key="canvasLocation" x="136.875" y="132.5"/>
+            <point key="canvasLocation" x="136.23188405797103" y="131.25"/>
         </view>
     </objects>
     <resources>
+        <image name="Xload" width="720" height="1276"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
