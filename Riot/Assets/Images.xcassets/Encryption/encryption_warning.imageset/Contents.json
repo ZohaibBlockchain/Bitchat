@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "encryption_warning.png",
+      "filename" : "user_other_sessions_verified-svg (2).svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "encryption_warning@2x.png",
+      "filename" : "user_other_sessions_verified-svg (2) 1.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "encryption_warning@3x.png",
+      "filename" : "user_other_sessions_verified-svg (2) 2.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }
