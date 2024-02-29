@@ -190,21 +190,21 @@ final class BuildSettings: NSObject {
     
     #if DEBUG
     /// The configuration to use for analytics during development. Set `isEnabled` to false to disable analytics in debug builds.
-    static let analyticsConfiguration = AnalyticsConfiguration(isEnabled: BuildSettings.baseBundleIdentifier.starts(with: "com.p2pchatter.bitchat"),
+    static let analyticsConfiguration = AnalyticsConfiguration(isEnabled: BuildSettings.baseBundleIdentifier.starts(with: "com.p2pchatter.app"),
                                                                host: "https://posthog.element.dev",
                                                                apiKey: "phc_VtA1L35nw3aeAtHIx1ayrGdzGkss7k1xINeXcoIQzXN",
-                                                               termsURL: URL(string: "https://element.io/cookie-policy")!)
+                                                               termsURL: URL(string: "https://p2pchatter.com/cookie-policy")!)
     #else
     /// The configuration to use for analytics. Set `isEnabled` to false to disable analytics.
-    static let analyticsConfiguration = AnalyticsConfiguration(isEnabled: BuildSettings.baseBundleIdentifier.starts(with: "com.p2pchatter.bitchat"),
+    static let analyticsConfiguration = AnalyticsConfiguration(isEnabled: BuildSettings.baseBundleIdentifier.starts(with: "com.p2pchatter.app"),
                                                                host: "https://posthog.element.io",
                                                                apiKey: "phc_Jzsm6DTm6V2705zeU5dcNvQDlonOR68XvX2sh1sEOHO",
-                                                               termsURL: URL(string: "https://element.io/cookie-policy")!)
+                                                               termsURL: URL(string: "https://p2pchatter.com/cookie-policy")!)
     #endif
     
     
     // MARK: - Bug report
-    static let bugReportEndpointUrlString = "https://riot.im/bugreports"
+    static let bugReportEndpointUrlString = "https://p2pchatter.com/bugreports"
     // Use the name allocated by the bug report server
     static let bugReportApplicationId = "riot-ios"
     static let bugReportUISIId = "element-auto-uisi"

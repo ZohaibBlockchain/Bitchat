@@ -49,7 +49,8 @@ typedef NS_ENUM(NSUInteger, SECTION_TAG)
     SECTION_TAG_ADVANCED,
     SECTION_TAG_ABOUT,
     SECTION_TAG_LABS,
-    SECTION_TAG_DEACTIVATE_ACCOUNT
+    SECTION_TAG_DEACTIVATE_ACCOUNT,
+    SECTION_TAG_HELLO
 };
 
 typedef NS_ENUM(NSUInteger, USER_SETTINGS_INDEX)
@@ -2656,7 +2657,17 @@ SSOAuthenticationPresenterDelegate>
                 break;
         }
     }
-
+    
+    //xobi
+    else if (section == SECTION_TAG_HELLO) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HelloCell"];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"HelloCell"];
+            }
+            cell.textLabel.text = @"Hello Tab";
+            return cell;
+        }
+    
     return cell;
 }
 

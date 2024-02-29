@@ -23,7 +23,7 @@ import UIKit
 class PillsFormatter: NSObject {
     // MARK: - Internal Properties
     /// UTType identifier for pills. Should be declared as Document type & Exported type identifier inside Info.plist
-    static let pillUTType: String = "com.p2pchatter.bitchat.pills"
+    static let pillUTType: String = "com.p2pchatter.app.pills"
 
     // MARK: - Internal Enums
     /// Defines a replacement mode for converting Pills to plain text.

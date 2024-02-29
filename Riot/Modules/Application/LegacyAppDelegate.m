@@ -75,6 +75,8 @@
 
 #define CALL_STATUS_BAR_HEIGHT 44
 
+
+
 NSString *const kAppDelegateDidTapStatusBarNotification = @"kAppDelegateDidTapStatusBarNotification";
 NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateNetworkStatusDidChangeNotification";
 
@@ -172,7 +174,6 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
      The key is an identifier of the MXSession. The value, the listener.
      */
     NSMutableDictionary *callEventsListeners;
-
     /**
      Currently displayed "Call not supported" alert.
      */
@@ -251,6 +252,13 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
  */
 @property (nonatomic, assign, getter=isClearingCache) BOOL clearingCache;
 
+
+//Xobi
+@property (nonatomic, assign) BOOL isListeningForRetentionEvents;
+@property (nonatomic, strong) NSNumber *retentionMaxLifetime;
+
+
+
 @end
 
 @implementation LegacyAppDelegate
@@ -277,9 +285,10 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
     }
     
     [MXLog configure:configuration];
-
-    MXLogDebug(@"[AppDelegate] initialize: Done");
 }
+
+
+
 
 
 
@@ -492,6 +501,9 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
     // Add matrix observers, and initialize matrix sessions if the app is not launched in background.
     [self initMatrixSessions];
     
+
+   
+  
 #ifdef CALL_STACK_JINGLE
     // Setup Jitsi
     NSURL *jitsiServerUrl = BuildSettings.jitsiServerUrl;
@@ -575,6 +587,14 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
     }
 }
 
+
+
+
+
+
+
+
+
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     MXLogDebug(@"[AppDelegate] applicationDidEnterBackground");
@@ -626,7 +646,14 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
     
     // Pause Voice Broadcast playing if needed
     [VoiceBroadcastPlaybackProvider.shared pausePlayingInProgressVoiceBroadcast];
+    
+        
+    
 }
+
+
+
+
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
@@ -639,6 +666,10 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
     _isAppForeground = YES;
 }
 
+
+
+
+
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     MXLogDebug(@"[AppDelegate] applicationDidBecomeActive");
@@ -648,7 +679,193 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
     [self configurePinCodeScreenFor:application createIfRequired:NO];
     
     [self checkCrossSigningForSession:self.mxSessions.firstObject];
+    
+    
+    
+    dispatch_after(dispatch_walltime(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        // Retrieve the callState value as a string
+        NSString *callStateValue = [defaults objectForKey:@"callState"];
+        
+        // Retrieve the timestamp
+        NSDate *storedTimeStamp = [defaults objectForKey:@"timeStamp"];
+        
+        NSDate *currentTimestamp = [NSDate date];
+        
+        // Calculate the time difference in seconds
+        NSTimeInterval timeDifference = [currentTimestamp timeIntervalSinceDate:storedTimeStamp];
+        
+        // Check if the callState is true or if the time difference is more than 10 seconds (10000 milliseconds)
+        BOOL isCallOngoing = [callStateValue isEqualToString:@"true"];
+        if (isCallOngoing || timeDifference <= 20) { // Note: timeDifference is in seconds, 10 seconds as an example
+           
+        } else {
+            dispatch_after(dispatch_walltime(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self reloadMatrixSessions:YES];
+                NSLog(@"[XOBI]: reloadMatrixSessions.");
+                // Set the call state to the current timestamp when the call is hung up
+                [defaults setObject:currentTimestamp forKey:@"timeStamp"];
+                [defaults synchronize];
+                
+                
+            dispatch_after(dispatch_walltime(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            //Xobi
+            // Prepare account manager
+            MXKAccountManager *accountManager = [MXKAccountManager sharedManager];
+            NSArray *mxAccounts = accountManager.activeAccounts;
+            MXKAccount* account = mxAccounts.firstObject;
+            MXSession *mainSession = account.mxSession;
+            
+            NSLog(@"[XOBI]: Room UID: %lu", (unsigned long)mainSession.rooms.count);
+            
+            if (mainSession.rooms.firstObject) {
+                NSLog(@"[XOBI]: Room length: %@, %@", mainSession.rooms.firstObject.roomId, mainSession.myUserId);
+            } else {
+                NSLog(@"[XOBI]: No rooms available");
+            }
+
+            for (MXRoom *room in mainSession.rooms) {
+                if (room) {
+                    NSLog(@"[XOBI]: Done Sub events for all rooms");
+                    [self fetchLatestRetentionPolicyForRoomWithId: room.roomId session:mainSession];
+                    [self fetchAndDisplayRetentionPolicyForRoom:room];
+                } else {
+                    NSLog(@"Error: MXRoom instance not set before viewDidLoad");
+                }
+            }
+            
+            });
+            });
+        }
+    });
+
 }
+
+
+
+- (void)fetchAndDisplayRetentionPolicyForRoom:(MXRoom *)mxRoom {
+    // Check if there is already a listener for the room
+    if (self.isListeningForRetentionEvents) {
+            return;
+        }
+    
+    
+    __weak typeof(self) weakSelf = self;
+    [mxRoom listenToEventsOfTypes:@[@"m.room.retention"] onEvent:^(MXEvent *event, MXTimelineDirection direction, id customObject) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) {
+            return; // Early return if the object has been deallocated
+        }
+        
+        if (direction == MXTimelineDirectionForwards) {
+            NSDictionary *content = event.content;
+            NSNumber *maxLifetime = content[@"max_lifetime"];
+
+            if (maxLifetime) {
+                NSLog(@"Updated Retention Content: %@", content);
+                strongSelf.retentionMaxLifetime = @(maxLifetime.integerValue / (1000 * 60)); // Safe to use maxLifetime here
+                NSString *uniqueKey = [NSString stringWithFormat:@"RetentionMaxLifetime_%@", mxRoom.roomId];
+                [[NSUserDefaults standardUserDefaults] setObject:strongSelf.retentionMaxLifetime forKey:uniqueKey];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+            }
+        }
+    }];
+    
+}
+
+
+
+//- (void)fetchRetentionPolicyForRoom:(MXRoom *)mxRoom usingSession:(MXSession *)mxSession {
+////    [mxRoom state:^(MXRoomState *roomState) {
+////        MXEvent *retentionEvent = [roomState stateEventsWithType:@"m.room.retention"].lastObject;
+//        
+//    
+//        NSLog(@"Getting Policy");
+////        account.mxSession.roomSummaryUpdateDelegate = eventFormatter;
+//        
+//        
+//        NSString *eventID = @"m.room.retention"; // The specific event ID you're interested in
+//        NSString *roomID = mxRoom.roomId; // Assuming mxRoom is your MXRoom instance
+//
+//        [mxSession eventWithEventId:eventID inRoom:roomID success:^(MXEvent *event) {
+//            // Success block: Process the event, e.g., retention policy info
+//            NSDictionary *content = event.content;
+//            NSNumber *maxLifetime = content[@"max_lifetime"];
+//            if (maxLifetime) {
+//                self.retentionMaxLifetime = @(maxLifetime.integerValue / (1000 * 60)); // Convert to minutes
+//                NSString *uniqueKey = [NSString stringWithFormat:@"RetentionMaxLifetime_%@", mxRoom.roomId];
+//                [[NSUserDefaults standardUserDefaults] setObject:self.retentionMaxLifetime forKey:uniqueKey];
+//                [[NSUserDefaults standardUserDefaults] synchronize];
+//                NSLog(@"Fetched and updated retention policy: %@", content);
+//            } else {
+//                NSLog(@"Retention policy event found but max_lifetime is missing for room: %@", mxRoom.roomId);
+//            }
+//        } failure:^(NSError *error) {
+//            // Failure block: Handle the error, e.g., log or alert
+//            NSLog(@"Failed to fetch retention policy event for room: %@, error: %@,%@", mxRoom.roomId, error,mxSession.myUserId);
+//        }];
+//
+//      
+//}
+
+
+
+
+
+
+- (void)fetchLatestRetentionPolicyForRoomWithId:(NSString *)roomId session:(MXSession *)session {
+    NSString *serverAddress = session.matrixRestClient.homeserver;
+    NSString *accessToken = session.matrixRestClient.credentials.accessToken;
+    
+    // Construct the request URL
+    NSString *requestUrlString = [NSString stringWithFormat:@"%@/_matrix/client/r0/rooms/%@/state/m.room.retention?access_token=%@", serverAddress, roomId, accessToken];
+    NSURL *requestUrl = [NSURL URLWithString:requestUrlString];
+    
+    // Create the request
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestUrl];
+    [request setHTTPMethod:@"GET"];
+    
+    // Send the request
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error fetching retention policy: %@", error.localizedDescription);
+            return;
+        }
+        
+        NSError *jsonError = nil;
+        NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+        if (jsonError) {
+            NSLog(@"Error parsing JSON response: %@", jsonError.localizedDescription);
+            return;
+        }
+        
+        NSNumber *maxLifetime = responseDict[@"max_lifetime"];
+                   if (maxLifetime) {
+                       self.retentionMaxLifetime = @(maxLifetime.integerValue / (1000 * 60)); // Convert to minutes
+                       NSString *uniqueKey = [NSString stringWithFormat:@"RetentionMaxLifetime_%@", roomId];
+                       [[NSUserDefaults standardUserDefaults] setObject:self.retentionMaxLifetime forKey:uniqueKey];
+                       [[NSUserDefaults standardUserDefaults] synchronize];
+                   } else {
+                       NSLog(@"Retention policy event found but max_lifetime is missing for room: %@", roomId);
+                   }
+        NSLog(@"Fetched retention policy: %@", responseDict);
+        // Process the fetched retention policy here
+        
+    }] resume];
+}
+
+
+
+
+
+
+
+
+
+
+
 
 - (void)configurePinCodeScreenFor:(UIApplication *)application
                  createIfRequired:(BOOL)createIfRequired
@@ -763,28 +980,10 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     MXLogDebug(@"[AppDelegate] applicationWillTerminate");
-    //Xobi
-    // Reload all running matrix sessions
-    NSArray *mxAccounts = [MXKAccountManager sharedManager].activeAccounts;
-    for (MXKAccount *account in mxAccounts)
-    {
-        [account reload:YES];
-        
-        // Replace default room summary updater
-        EventFormatter *eventFormatter = [[EventFormatter alloc] initWithMatrixSession:account.mxSession];
-        eventFormatter.isForSubtitle = YES;
-        account.mxSession.roomSummaryUpdateDelegate = eventFormatter;
-    }
-    
-    // Force back to Recents list if room details is displayed (Room details are not available until the end of initial sync)
-    [self popToHomeViewControllerAnimated:NO completion:nil];
-    
-    if (YES)
-    {
-        self.clearingCache = YES;
-        [self clearCache];
-    }
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        //xobi
+               NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+               [defaults setObject:@"false" forKey:@"callState"];
+               [defaults synchronize];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
@@ -1850,6 +2049,18 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
     matrixSessionStateObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kMXSessionStateDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notif) {
         MXSession *mxSession = (MXSession*)notif.object;
         
+        //First Time Xobi Setup
+        
+        for (MXRoom *room in mxSession.rooms) {
+            if (room) {
+                NSLog(@"[XOBI]: Done Sub events for all rooms");
+                [self fetchLatestRetentionPolicyForRoomWithId: room.roomId session:mxSession];
+            } else {
+                NSLog(@"Error: MXRoom instance not set before viewDidLoad");
+            }
+        }
+        
+        
         // Check whether the concerned session is a new one
         if (mxSession.state == MXSessionStateInitialised)
         {
@@ -2007,6 +2218,10 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
         // Set up push notifications
         [self.pushNotificationService registerUserNotificationSettings];
     }
+    
+    
+    
+    
 }
 
 - (NSArray*)mxSessions
@@ -2114,6 +2329,8 @@ NSString *const AppDelegateUniversalLinkDidChangeNotification = @"AppDelegateUni
         [self clearCache];
     }
 }
+
+
 
 - (void)logoutWithConfirmation:(BOOL)askConfirmation completion:(void (^)(BOOL isLoggedOut))completion
 {

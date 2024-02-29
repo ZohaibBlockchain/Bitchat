@@ -7,7 +7,6 @@ configs:
   Release: release
 
 fileGroups:
-    - README.md
     - CHANGES.md
     - AUTHORS.rst
     - Podfile

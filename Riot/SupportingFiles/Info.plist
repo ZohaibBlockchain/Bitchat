@@ -17,7 +17,7 @@
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.p2pchatter.bitchat.pills</string>
+				<string>com.p2pchatter.app.pills</string>
 			</array>
 		</dict>
 	</array>
@@ -138,7 +138,7 @@
 			<key>UTTypeDescription</key>
 			<string>Mention Pills</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.p2pchatter.bitchat.pills</string>
+			<string>com.p2pchatter.app.pills</string>
 		</dict>
 	</array>
 	<key>applicationGroupIdentifier</key>

@@ -162,6 +162,9 @@ UINavigationControllerDelegate
 
 // Reload all running matrix sessions
 - (void)reloadMatrixSessions:(BOOL)clearCache;
+- (void)CustomCC:(BOOL)clearCache;
+
+
 
 - (void)displayLogoutConfirmationForLink:(UniversalLink *)link
                               completion:(void (^)(BOOL loggedOut))completion;

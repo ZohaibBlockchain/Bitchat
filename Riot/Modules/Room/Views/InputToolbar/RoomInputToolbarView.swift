@@ -65,7 +65,8 @@ extension RoomInputToolbarViewProtocol where Self: MXKRoomInputToolbarView {
                 placeholder = VectorL10n.roomFirstMessagePlaceholder
                 
             default:
-                placeholder = VectorL10n.roomMessageShortPlaceholder
+//                placeholder = VectorL10n.roomMessageShortPlaceholder
+                placeholder = "Text Message"
             }
         } else {
             if isEncryptionEnabled {

@@ -102,6 +102,7 @@ NSString *const MXKAccountManagerDataType = @"org.matrix.kit.MXKAccountManagerDa
             [account openSessionWithStore:store];
         }
     }
+    
 }
 
 #pragma clang diagnostic push

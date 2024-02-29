@@ -1,20 +1,3 @@
-/*
- Copyright 2016 OpenMarket Ltd
- Copyright 2017 Vector Creations Ltd
- 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.apache.org/licenses/LICENSE-2.0
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
- */
-
 #import "RoomSettingsViewController.h"
 
 #import "TableViewCellWithLabelAndLargeTextView.h"
@@ -81,7 +64,8 @@ enum
     ROOM_SETTINGS_ADVANCED_ENCRYPT_TO_VERIFIED,
     ROOM_SETTINGS_ADVANCED_ENCRYPTION_ENABLED,
     ROOM_SETTINGS_ADVANCED_ENABLE_ENCRYPTION,
-    ROOM_SETTINGS_ADVANCED_ENCRYPTION_DISABLED
+    ROOM_SETTINGS_ADVANCED_ENCRYPTION_DISABLED,
+    ROOM_SETTINGS_ADVANCED_RETENTION
 };
 
 enum
@@ -92,6 +76,8 @@ enum
 };
 
 #define ROOM_TOPIC_CELL_HEIGHT 124
+
+NSString *const retentionKey = @"retentionKey";
 
 NSString *const kRoomSettingsAvatarKey = @"kRoomSettingsAvatarKey";
 NSString *const kRoomSettingsAvatarURLKey = @"kRoomSettingsAvatarURLKey";
@@ -174,9 +160,50 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
 
 @property (nonatomic, strong) TableViewSections *tableViewSections;
 
+
+@property (strong, nonatomic) NSArray<NSString *> *retentionOptions;
+@property (strong, nonatomic) NSArray<NSNumber *> *retentionValues; // Values in seconds
+@property (assign, nonatomic) NSInteger selectedRetentionIndex;
+
+
+
+@property (nonatomic, strong) NSNumber *retentionMaxLifetime;
+
+@property (nonatomic, assign) BOOL isListeningForRetentionEvents;
 @end
 
+
+
+
+
+
+
+
+
 @implementation RoomSettingsViewController
+
+
+#pragma mark - UIPickerViewDataSource
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return self.retentionOptions.count;
+}
+
+#pragma mark - UIPickerViewDelegate
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return self.retentionOptions[row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    self.selectedRetentionIndex = row;
+}
+
+
 
 - (void)finalizeInit
 {
@@ -201,6 +228,21 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
             [self updateRoomState:roomState];
         }
     }];
+    
+    //xobi AA
+    
+    NSString *uniqueKey = [NSString stringWithFormat:@"RetentionMaxLifetime_%@", mxRoom.roomId];
+
+    NSNumber *storedMaxLifetime = [[NSUserDefaults standardUserDefaults] objectForKey:uniqueKey];
+    if (storedMaxLifetime) {
+        self.retentionMaxLifetime = storedMaxLifetime;
+    } else {
+        // Handle the case where there is no stored value, e.g., set a default
+        self.retentionMaxLifetime = nil; // Or some default value
+    }
+    
+    NSLog(@"xxx value: %@", storedMaxLifetime);
+
 }
 
 - (void)updateRoomState:(MXRoomState *)newRoomState
@@ -228,6 +270,20 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.retentionOptions = @[@"OFF",@"5 minutes", @"10 minutes", @"15 minutes", @"30 minutes", @"1 hour", @"24 hours", @"1 week", @"2 weeks", @"1 month", @"3 months", @"1 year"];
+        self.retentionValues = @[@(3153600000),@(300), @(600), @(900), @(1800), @(3600), @(86400), @(604800), @(1209600), @(2592000), @(7776000), @(31536000)];
+        self.selectedRetentionIndex = 0;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     updatedItemsDict = [[NSMutableDictionary alloc] init];
     historyVisibilityTickCells = [[NSMutableDictionary alloc] initWithCapacity:4];
@@ -268,6 +324,7 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
     _tableViewSections = [TableViewSections new];
     _tableViewSections.delegate = self;
     [self updateSections];
+    
 }
 
 - (void)userInterfaceThemeDidChange
@@ -313,6 +370,14 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    //Xobi
+    
+    if (mxRoom) {
+            [self fetchAndDisplayRetentionPolicyForRoom:mxRoom];
+        } else {
+            NSLog(@"Error: MXRoom instance not set before viewDidLoad");
+        }
     
     // Edit the selected field if any
     if (_selectedRoomSettingsField != RoomSettingsViewControllerFieldNone)
@@ -506,6 +571,7 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
     [sectionMain addRowWithTag:ROOM_SETTINGS_MAIN_SECTION_ROW_NAME];
     [sectionMain addRowWithTag:ROOM_SETTINGS_MAIN_SECTION_ROW_TOPIC];
     [sectionMain addRowWithTag:ROOM_SETTINGS_MAIN_SECTION_ROW_TAG];
+    
     if (RiotSettings.shared.roomSettingsScreenShowDirectChatOption)
     {
         [sectionMain addRowWithTag:ROOM_SETTINGS_MAIN_SECTION_ROW_DIRECT_CHAT];
@@ -603,6 +669,7 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
         Section *sectionAdvanced = [Section sectionWithTag:SECTION_TAG_BANNED_ADVANCED];
         
         [sectionAdvanced addRowWithTag:ROOM_SETTINGS_ADVANCED_ROOM_ID];
+        [sectionAdvanced addRowWithTag:ROOM_SETTINGS_ADVANCED_RETENTION];
         if (mxRoom.mxSession.crypto)
         {
             if (mxRoom.summary.isEncrypted)
@@ -1304,6 +1371,19 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
 
 - (IBAction)onCancel:(id)sender
 {
+    
+    
+    //xobi
+    NSString *uniqueKey = [NSString stringWithFormat:@"RetentionMaxLifetime_%@", mxRoom.roomId];
+
+    NSNumber *storedMaxLifetime = [[NSUserDefaults standardUserDefaults] objectForKey:uniqueKey];
+    if (storedMaxLifetime) {
+        self.retentionMaxLifetime = storedMaxLifetime;
+    } else {
+        // Handle the case where there is no stored value, e.g., set a default
+        self.retentionMaxLifetime = nil; // Or some default value
+    }
+    
     [self dismissFirstResponder];
     
     // Check whether some changes have been done
@@ -1373,8 +1453,13 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
 
 - (IBAction)onSave:(id)sender
 {
+    
+   
+    
+    
     if (updatedItemsDict.count)
     {
+        
         [self startActivityIndicator];
         
         __weak typeof(self) weakSelf = self;
@@ -1512,6 +1597,25 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
                 }];
                 
                 return;
+            }
+            
+            //Xobi
+            NSString *retention = [NSString stringWithFormat:@"%@", updatedItemsDict[retentionKey]];
+            NSNumber *time = [NSNumber numberWithDouble:retention.doubleValue];
+
+            MXLogDebug(@"[RoomSettingsViewController] retention: %@", time);
+
+            if(time)
+            {
+                [self retentionFx:time];
+
+                if (weakSelf)
+                {
+                    typeof(self) self = weakSelf;
+                    self->pendingOperation = nil;
+                    [self->updatedItemsDict removeObjectForKey:retentionKey];
+                    [self onSave:nil];
+                }
             }
             
             // has a new room topic
@@ -2080,8 +2184,14 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
+
+
+
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     NSIndexPath *tagsIndexPath = [_tableViewSections tagsIndexPathFromTableViewIndexPath:indexPath];
     NSInteger section = tagsIndexPath.section;
     NSInteger row = tagsIndexPath.row;
@@ -2780,7 +2890,29 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
+        
+        //Xobi Btn
+        else if (row == ROOM_SETTINGS_ADVANCED_RETENTION) {
+           
+           
+            
+            cell = [tableView dequeueReusableCellWithIdentifier:@"basicCell"];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"basicCell"];
+            }
+
+            // Use the property to configure the cell
+            if (self.retentionMaxLifetime) {
+                cell.textLabel.text = [self formattedStringForLifetime:self.retentionMaxLifetime];
+            } else {
+                cell.textLabel.text = @"Disappearing Messages: Off";
+            }
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
     }
+    
+
+    
     
     // Sanity check
     if (!cell)
@@ -2791,6 +2923,66 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
     
     return cell;
 }
+
+
+- (NSString *)formattedStringForLifetime:(NSNumber *)lifetimeMinutes {
+    NSInteger minutes = lifetimeMinutes.integerValue;
+    
+    // Check if the lifetime is exactly 1,577,880 minutes (3 years)
+    if (minutes == 1577880) {
+        return @"Disappearing Messages: Off";
+    }
+    
+    if (minutes < 60) {
+        return [NSString stringWithFormat:@"Disappearing Messages: %ld Minute%@", (long)minutes, (minutes != 1 ? @"s" : @"")];
+    } else if (minutes < 1440) {
+        NSInteger hours = minutes / 60;
+        return [NSString stringWithFormat:@"Disappearing Messages: %ld Hour%@", (long)hours, (hours != 1 ? @"s" : @"")];
+    } else {
+        NSInteger days = minutes / 1440;
+        return [NSString stringWithFormat:@"Disappearing Messages: %ld Day%@", (long)days, (days != 1 ? @"s" : @"")];
+    }
+}
+
+
+
+
+- (void)fetchAndDisplayRetentionPolicyForRoom:(MXRoom *)mxRoom {
+    // Check if there is already a listener for the room
+    if (self.isListeningForRetentionEvents) {
+            return;
+        }
+    
+    self.isListeningForRetentionEvents = YES;
+    [mxRoom listenToEventsOfTypes:@[@"m.room.retention"] onEvent:^(MXEvent *event, MXTimelineDirection direction, id customObject) {
+        if (direction == MXTimelineDirectionForwards) {
+            // Handle the event
+            NSDictionary *content = event.content;
+            NSNumber *maxLifetime = content[@"max_lifetime"];
+            NSLog(@"Updated Retention Content: %@", content);
+           
+            self.retentionMaxLifetime = @(maxLifetime.integerValue / (1000 * 60)); // Safe to use maxLifetime here
+            NSString *uniqueKey = [NSString stringWithFormat:@"RetentionMaxLifetime_%@", mxRoom.roomId];
+            [[NSUserDefaults standardUserDefaults] setObject:self.retentionMaxLifetime forKey:uniqueKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            // Update UI or internal state as needed
+            // Example: Update a property and reload table view data
+            // Make sure to dispatch UI updates on the main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData]; // Ensure UI updates are on the main thread
+            });
+        }
+    }];
+    
+}
+
+
+
+
+
+
+
 
 - (MXKTableViewCellWithLabelAndSwitch*)getLabelAndSwitchCell:(UITableView*)tableView forIndexPath:(NSIndexPath *)indexPath
 {
@@ -2984,10 +3176,116 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
                 });
             }
         }
-        
+        //Xobi Main FX
+        else if (section == SECTION_TAG_BANNED_ADVANCED && row == ROOM_SETTINGS_ADVANCED_RETENTION) {
+            
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+
+            UIPickerView *picker = [[UIPickerView alloc] initWithFrame:CGRectMake(35, 0, 300,200)];
+            
+            picker.dataSource = self;
+            picker.delegate = self;
+            
+            [alertController.view addSubview:picker];
+            
+            UIAlertAction *setLimitAction = [UIAlertAction actionWithTitle:@"Set Limit" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                NSNumber *selectedValue = self.retentionValues[self.selectedRetentionIndex];
+                // Call abcdTest function with the selected value
+                self.retentionMaxLifetime = [NSNumber numberWithDouble:(selectedValue.doubleValue/(60))];
+                
+                self->updatedItemsDict[retentionKey] = selectedValue;
+                [self getNavigationItem].rightBarButtonItem.enabled = (updatedItemsDict.count != 0);
+                
+                [self.tableView reloadData]; // Ensure UI updates are on the main thread
+                // Optionally deselect the row
+                [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            }];
+            
+            [alertController addAction:setLimitAction];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+            [alertController addAction:cancelAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
+            
+            
+        }
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        
     }
 }
+
+
+////Xobi Custom FX
+//- (void)ui_update:(NSNumber *)selectedValue {
+//    NSLog(@"XUI.");
+//    dispatch_after(dispatch_walltime(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self.tableView reloadData]; // Ensure UI updates are on the main thread
+//        });
+//}
+
+
+
+//Xobi Custom FX
+- (void)retentionFx:(NSNumber *)selectedValue {
+    // Ensure mxRoom is a valid MXRoom instance
+    if (!mxRoom) {
+        NSLog(@"MXRoom instance is not available.");
+        return;
+    }
+    
+    // Convert selectedValue from seconds to milliseconds
+    NSNumber *maxLifetimeInMilliseconds = @(selectedValue.doubleValue * 1000);
+    // Prepare the content of the retention policy event
+    
+    NSDictionary *content;
+    if (selectedValue) {
+        // If selectedValue is provided, use it as max_lifetime
+        
+//        NSLog(@"AAA. %f", [maxLifetimeInMilliseconds doubleValue]);
+        content = @{
+            @"max_lifetime":maxLifetimeInMilliseconds,
+            @"min_lifetime":@(1000)
+            // Optional: You can also include "min_lifetime" if needed
+            // @"min_lifetime": @(1000 * 60 * 60 * 24) // Example: 1 day in milliseconds
+        };
+    } else {
+        // Fallback or default value if selectedValue is nil
+        NSLog(@"Fallback AAA. ",maxLifetimeInMilliseconds);
+        content = @{
+            @"max_lifetime": @(1000 * 60 * 60 * 24 * 7) // Example: 1 week in milliseconds
+            // @"min_lifetime": @(1000 * 60 * 60 * 24) // Example: 1 day in milliseconds
+        };
+    }
+
+    // Send the retention policy state event to the room
+    [mxRoom sendStateEventOfType:@"m.room.retention"
+                         content:content
+                          stateKey:@""
+                          success:^(NSString *eventId) {
+                              NSLog(@"Retention policy set successfully. Event ID: %@", eventId);
+        
+       
+        dispatch_async(dispatch_get_main_queue(), ^{
+                        
+            self.retentionMaxLifetime = @(selectedValue.doubleValue / 60);
+            NSString *uniqueKey = [NSString stringWithFormat:@"RetentionMaxLifetime_%@", mxRoom.roomId];
+            [[NSUserDefaults standardUserDefaults] setObject:self.retentionMaxLifetime forKey:uniqueKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+                   });
+                          }
+                          failure:^(NSError *error) {
+                              NSLog(@"Failed to set retention policy: %@", error);
+                          }];
+   
+}
+
+
+
+
+//Xobi Custom FX End
+
 
 - (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -3655,4 +3953,7 @@ NSString *const kRoomSettingsAdvancedE2eEnabledCellViewIdentifier = @"kRoomSetti
     }];
 }
 
+
 @end
+
+

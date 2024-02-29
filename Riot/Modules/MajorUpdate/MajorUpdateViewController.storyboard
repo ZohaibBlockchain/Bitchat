@@ -61,7 +61,7 @@
                                                             <constraint firstItem="DRi-Zy-VhL" firstAttribute="leading" secondItem="0Ic-By-AMc" secondAttribute="trailing" constant="31" id="tl0-z4-uy4"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bitchat is now Element" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LU5-Au-QYW">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chitchat is now Element" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LU5-Au-QYW">
                                                         <rect key="frame" x="20" y="139" width="374" height="24"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                         <nil key="textColor"/>
@@ -190,8 +190,8 @@
     </scenes>
     <resources>
         <image name="disclosure_icon" width="6" height="12"/>
-        <image name="launch_screen_logo" width="240" height="240"/>
-        <image name="old_logo" width="50" height="61"/>
+        <image name="launch_screen_logo" width="256" height="256"/>
+        <image name="old_logo" width="512" height="512"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

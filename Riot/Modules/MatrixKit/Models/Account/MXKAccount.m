@@ -953,6 +953,7 @@ static NSArray<NSNumber*> *initialSyncSilentErrorsHTTPStatusCodes;
         }
         else
         {
+            MXLogDebug(@"xobi summaries RMS")
             // For recomputing of room summaries as they are a cache of computed data
             [mxSession resetRoomsSummariesLastMessage];
         }
@@ -970,6 +971,43 @@ static NSArray<NSNumber*> *initialSyncSilentErrorsHTTPStatusCodes;
     
     notifyOpenSessionFailure = YES;
 }
+
+
+
+
+- (void)CClean:(BOOL)clearStore
+{
+    MXLogDebug(@"Xobi CC");
+    
+    // Reset room data stored in memory
+    [MXKRoomDataSourceManager removeSharedManagerForMatrixSession:mxSession];
+
+        if (clearStore)
+        {
+            // Clean other stores
+            [mxSession.scanManager deleteAllAntivirusScans];
+            [mxSession.aggregations resetData];
+        }
+        else
+        {
+            // For recomputing of room summaries as they are a cache of computed data
+            [mxSession resetRoomsSummariesLastMessage];
+        }
+        
+        if (clearStore)
+        {
+            [mxSession.store deleteAllData];
+        }
+        
+        mxSession = nil;
+    
+    notifyOpenSessionFailure = YES;
+}
+
+
+
+
+
 
 - (void)logout:(void (^)(void))completion 
 {

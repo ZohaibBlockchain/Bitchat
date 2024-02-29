@@ -6,9 +6,9 @@ enum MDMSettings {
     private static let appleManagedConfigurationKey = "com.apple.configuration.managed"
     
     private enum Key: String {
-        case serverConfigDefaultHomeserverUrlString = "com.p2pchatter.bitchat.serverConfigDefaultHomeserverUrlString"
-        case serverConfigSygnalAPIUrlString = "com.p2pchatter.bitchat.serverConfigSygnalAPIUrlString"
-        case clientPermalinkBaseUrl = "com.p2pchatter.bitchat.clientPermalinkBaseUrl"
+        case serverConfigDefaultHomeserverUrlString = "com.p2pchatter.app.serverConfigDefaultHomeserverUrlString"
+        case serverConfigSygnalAPIUrlString = "com.p2pchatter.app.serverConfigSygnalAPIUrlString"
+        case clientPermalinkBaseUrl = "com.p2pchatter.app.clientPermalinkBaseUrl"
     }
     
     static var serverConfigDefaultHomeserverUrlString: String? {

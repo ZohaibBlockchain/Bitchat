@@ -1,3 +1,4 @@
+//Modified by NineTail
 import UIKit
 import PushKit
 
@@ -71,9 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-       // self.legacyAppDelegate.reloadMatrixSessions(true)
+//        self.legacyAppDelegate.reloadMatrixSessions(false)
         self.legacyAppDelegate.applicationDidEnterBackground(application)
-        
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {

@@ -79,6 +79,8 @@ final class AppCoordinator: NSObject, AppCoordinatorType {
         
         setupFlexDebuggerOnWindow(window)
         update(with: ThemeService.shared().theme)
+        
+        
     }
     
     // MARK: - Public methods
@@ -115,6 +117,7 @@ final class AppCoordinator: NSObject, AppCoordinatorType {
         MXLog.debug("[AppCoordinator] Showed split view")
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.themeDidChange), name: Notification.Name.themeServiceDidChangeTheme, object: nil)
+        
     }
     
     func open(url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {

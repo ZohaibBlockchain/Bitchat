@@ -82,7 +82,7 @@
                                                             <constraint firstAttribute="width" constant="14" id="zKC-ZT-6y8"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bitchat iOS (BLPOWKUPGQ)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FET-ZT-Q69">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chitchat iOS (BLPOWKUPGQ)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FET-ZT-Q69">
                                                         <rect key="frame" x="44" y="10" width="311" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                         <nil key="textColor"/>
@@ -224,6 +224,6 @@
     </scenes>
     <resources>
         <image name="close_button" width="16" height="16"/>
-        <image name="encryption_warning" width="12" height="12"/>
+        <image name="encryption_warning" width="10" height="10"/>
     </resources>
 </document>

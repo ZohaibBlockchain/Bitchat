@@ -1,22 +1,3 @@
-/*
- Copyright 2015 OpenMarket Ltd
- Copyright 2017 Vector Creations Ltd
- Copyright 2018 New Vector Ltd
- Copyright 2019 The Matrix.org Foundation C.I.C
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.apache.org/licenses/LICENSE-2.0
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
- */
-
 #define MXKROOMVIEWCONTROLLER_DEFAULT_TYPING_TIMEOUT_SEC 10
 #define MXKROOMVIEWCONTROLLER_MESSAGES_TABLE_MINIMUM_HEIGHT 50
 
@@ -219,9 +200,30 @@ static const CGFloat kCellVisibilityMinimumHeight = 8.0;
     _resizeComposerAnimationDuration = 0.3;
 }
 
+
+
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+
+    //xobi
+//        NSString *roomId = self.roomDataSource.roomId;
+//            if (roomId) {
+//                [self refreshRoomMessages:roomId completion:^(BOOL success) {
+//                    if (success) {
+//                        NSLog(@"Room data cleared and reloaded successfully.");
+//                        // Reload your room view or data source here as needed
+//                    } else {
+//                        NSLog(@"Failed to clear and reload room data.");
+//                    }
+//                }];
+//            }
+    
+    
+    
     
     if (BuildSettings.newAppLayoutEnabled)
     {
@@ -348,10 +350,14 @@ static const CGFloat kCellVisibilityMinimumHeight = 8.0;
         _bubblesTableView.hidden = NO;
     }
 }
-
+    
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+
+    
+    
     
     // Remove the rounded bottom unsafe area of the iPhone X
     _bubblesTableViewBottomConstraint.constant += self.view.safeAreaInsets.bottom;
@@ -2707,6 +2713,8 @@ static const CGFloat kCellVisibilityMinimumHeight = 8.0;
     }
 }
 
+
+
 - (void)dataSource:(MXKDataSource *)dataSource didRecognizeAction:(NSString *)actionIdentifier inCell:(id<MXKCellRendering>)cell userInfo:(NSDictionary *)userInfo
 {
     MXLogDebug(@"Gesture %@ has been recognized in %@. UserInfo: %@", actionIdentifier, cell, userInfo);
@@ -3394,6 +3402,7 @@ static const CGFloat kCellVisibilityMinimumHeight = 8.0;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    
     if (scrollView == _bubblesTableView)
     {
         BOOL wasScrollingToBottom = isScrollingToBottom;
@@ -4177,5 +4186,52 @@ static const CGFloat kCellVisibilityMinimumHeight = 8.0;
         MXLogDebug(@"[MXKRoomViewController] Failed to share key for room %@: %@", roomId, error);
     }];
 }
+
+
+
+
+- (void)refreshRoomMessages:(NSString *)roomId completion:(void (^)(BOOL success))completion {
+    MXLogDebug(@"Xobi refresh:")
+    MXSession *session = self.mainSession;
+    
+    // Check if the user is already in the room
+    MXRoom *room = [session roomWithRoomId:roomId];
+    if (!room) {
+        NSLog(@"User is not in the room.");
+        if (completion) {
+            completion(NO);
+        }
+        return;
+    }
+    
+    // Attempt to force a refresh of the room state and messages from the server
+    [session start:^{
+        // The session has started syncing, now specifically request a sync for the room to update its state
+        [room liveTimeline:^(id<MXEventTimeline> liveTimeline) {
+            // Reset the message cache
+            [liveTimeline resetPagination];
+            
+            // Force the room to fetch the latest events from the server
+            [liveTimeline paginate:100 direction:MXTimelineDirectionBackwards onlyFromStore:NO complete:^{
+                NSLog(@"Room messages refreshed from the server.");
+                if (completion) {
+                    completion(YES);
+                }
+            } failure:^(NSError *error) {
+                NSLog(@"Failed to paginate room messages: %@", error.localizedDescription);
+                if (completion) {
+                    completion(NO);
+                }
+            }];
+        }];
+    } failure:^(NSError *error) {
+        NSLog(@"Failed to start the session: %@", error.localizedDescription);
+        if (completion) {
+            completion(NO);
+        }
+    }];
+}
+
+
 
 @end
